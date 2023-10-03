@@ -4,7 +4,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/althinect/filament-spatie-roles-permissions.svg?style=flat-square)](https://packagist.org/packages/althinect/filament-spatie-roles-permissions)
 ![GitHub Actions](https://github.com/althinect/filament-spatie-roles-permissions/actions/workflows/main.yml/badge.svg)
 
-This plugin is built on top of [Spatie's Permission](https://spatie.be/docs/laravel-permission/v5/introduction) package. 
+This plugin is built on top of [Spatie's Permission](https://spatie.be/docs/laravel-permission/v5/introduction) package.
 
 Provides Resources for Roles and Permissions
 
@@ -23,7 +23,7 @@ php artisan vendor:publish --tag="filament-spatie-roles-permissions-config" --fo
 ```
 ***Note that your existing settings will be overriden***
 
-#### If you like our work Don't forget to STAR the project 
+#### If you like our work Don't forget to STAR the project
 
 ## Installation
 
@@ -60,7 +60,7 @@ php artisan vendor:publish --tag="filament-spatie-roles-permissions-config" --fo
 
 ### Form
 
-You can add the following to your *form* method in your UserResource 
+You can add the following to your *form* method in your UserResource
 
 ```php
 return $form->schema([
@@ -69,6 +69,12 @@ return $form->schema([
 ```
 
 In addition to the field added to the **UserResource**. There will be 2 Resources published under *Roles and Permissions*. You can use these resources manage roles and permissions.
+
+### Running Migrations
+
+```bash
+php artisan migrate
+```
 
 ### Generate Permissions
 
@@ -83,7 +89,7 @@ This will not delete any existing permissions. However, if you want to delete al
 php artisan permissions:sync -C|--clean
 ```
 
-#### Example: 
+#### Example:
 If you have a **Post** model, it will generate the following permissions
 ```
 view-any Post
@@ -112,7 +118,7 @@ php artisan permissions:sync -O|--oep
 ```
 
 ### Ignoring prompts
-You can ignore any prompts by add the flag ``-Y`` or ``--yes-to-all`` 
+You can ignore any prompts by add the flag ``-Y`` or ``--yes-to-all``
 
 ***Recommended only for new projects as it will replace Policy files***
 
@@ -123,6 +129,18 @@ php artisan permissions:sync -COPY
 ### Adding a Super Admin
 
 * Create a Role with the name `Super Admin` and assign the role to a User
+    - ***Create Role***
+        ```bash
+        php artisan permission:create-role "Super Admin"
+        ```
+    - ***Assign Role***
+        ```bash
+        php artisan tinker
+        $user = App\Models\User::find(<user_id>);
+        $user->assignRole('Super Admin');
+        exit
+        ```
+
 * Add the following trait to the User Model
 
 ```php
@@ -138,8 +156,10 @@ use HasSuperAdmin;
 
 ```php
 Gate::before(function (User $user, string $ability) {
-    return $user->isSuperAdmin() ? true: null;     
+    return $user->isSuperAdmin() ? true: null;
 });
+
+}
 ```
 
 ### Configurations
